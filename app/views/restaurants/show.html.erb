@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1><%= @restaurant.name %></h1>
+      <p><%= @restaurant.address %></p>
+
+      <div id="reviews">
+        <% if @restaurant.reviews.blank? %>
+          Be the first to leave a review for <%= @restaurant.name %>
+        <% else %>
+          <p><%= pluralize @restaurant.reviews.size, "review" %></p>
+          <% @restaurant.reviews.each do |review| %>
+            <p><%= review.content %></p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
