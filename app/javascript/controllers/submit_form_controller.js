@@ -2,7 +2,7 @@ import { Controller } from "stimulus"
 import { csrfToken } from "@rails/ujs";
 
 export default class extends Controller {
-  static targets = ['content', 'reviews']
+  static targets = ['content', 'reviews', 'count']
 
   connect() {
   }
@@ -25,6 +25,8 @@ export default class extends Controller {
     }).then(response => response.json())
     .then(data => {
       this.reviewsTarget.insertAdjacentHTML('afterBegin', data.reviewHTML)
+      this.contentTarget.value = "" // resetting the input field
+      this.countTarget.innerText = `${data.count} reviews` // updating the reviews count
     })
   }
 }

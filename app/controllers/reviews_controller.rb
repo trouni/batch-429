@@ -8,6 +8,7 @@ class ReviewsController < ApplicationController
         # format.html { redirect_to restaurant_path(@restaurant) }
         format.json do
           render json: {
+            count: @restaurant.reviews.count,
             review: @review,
             reviewHTML: render_to_string(
               partial: 'reviews/card',

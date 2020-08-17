@@ -33,7 +33,7 @@
         <% end %>
       </div>
 
-      <p><%= pluralize @restaurant.reviews.size, "review" %></p>
+      <p data-target="submit-form.count"><%= pluralize @restaurant.reviews.size, "review" %></p>
       <div id="reviews" class="my-4" data-target="submit-form.reviews">
         <% if @restaurant.reviews.blank? %>
           Be the first to leave a review for <%= @restaurant.name %>
