@@ -4,7 +4,19 @@ class ReviewsController < ApplicationController
     @review = Review.new(review_params)
     @review.restaurant = @restaurant
     if @review.save
-      redirect_to restaurant_path(@restaurant)
+      respond_to do |format|
+        # format.html { redirect_to restaurant_path(@restaurant) }
+        format.json do
+          render json: {
+            review: @review,
+            reviewHTML: render_to_string(
+              partial: 'reviews/card',
+              locals: { review: @review },
+              formats: :html
+            )
+          }
+        end
+      end
     else
       render 'restaurants/show'
     end
