@@ -1,0 +1,49 @@
+<div class="container py-5" data-controller="submit-form">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1><%= @restaurant.name %></h1>
+      <p><%= @restaurant.address %></p>
+
+      <div data-controller="inline-modal">
+        <button
+          class="btn btn-outline-primary w-100"
+          data-action="click->inline-modal#openModal">Leave a review</button>
+        <%= simple_form_for(
+            [ @restaurant, @review ],
+            remote: true,
+            data: {
+              target: "inline-modal.form"
+            }
+          ) do |f| %>
+          <%= f.input :content, as: :text,
+            label: false,
+            input_html: {
+              placeholder: 'Press enter to submit your review.',
+              data: {
+                action: 'keydown->inline-modal#submitOnEnter',
+                target: 'submit-form.content'
+              }
+            } %>
+          <%= f.button :submit,
+            class: 'btn btn-primary w-100',
+            data: {
+              action: "click->submit-form#submit"
+            }
+           %>
+        <% end %>
+      </div>
+
+      <p data-target="submit-form.count"><%= pluralize @restaurant.reviews.size, "review" %></p>
+      <div id="reviews" class="my-4" data-target="submit-form.reviews">
+        <% if @restaurant.reviews.blank? %>
+          Be the first to leave a review for <%= @restaurant.name %>
+        <% else %>
+          <% @restaurant.reviews.order(created_at: :desc).each do |review| %>
+            <%= render 'reviews/card', review: review %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
